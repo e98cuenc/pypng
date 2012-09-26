@@ -181,11 +181,14 @@ import zlib
 # http://www.python.org/doc/2.4.4/lib/module-warnings.html
 import warnings
 try:
-    import pyximport
-    pyximport.install()
     import cpngfilters as pngfilters
 except ImportError:
-    pass
+    try:
+        import pyximport
+        pyximport.install()
+        import cpngfilters as pngfilters
+    except ImportError:
+        pass
 
 
 __all__ = ['Image', 'Reader', 'Writer', 'write_chunks', 'from_array']

@@ -15,6 +15,14 @@
 
 # http://docs.python.org/release/2.4.4/lib/module-sys.html
 import sys
+try:
+    # http://peak.telecommunity.com/DevCenter/setuptools#basic-use
+    from setuptools import setup
+    from setuptools import Extension
+except ImportError:
+    # http://docs.python.org/release/2.4.4/dist/setup-script.html
+    from distutils.core import setup
+    from distutils.extension import Extension
 
 conf = dict(
     name='pypng',
@@ -35,6 +43,7 @@ http://packages.python.org/pypng/
     url='http://code.google.com/p/pypng/',
     package_dir={'':'code'},
     py_modules=['png'],
+    ext_modules=[Extension('cpngfilters', ['code/cpngfilters.c'])],
     classifiers=[
       'Topic :: Multimedia :: Graphics',
       'Topic :: Software Development :: Libraries :: Python Modules',
@@ -52,10 +61,4 @@ if sys.version_info >= (3,):
     conf['use_2to3'] = True
 
 if __name__ == '__main__':
-    try:
-        # http://peak.telecommunity.com/DevCenter/setuptools#basic-use
-        from setuptools import setup
-    except ImportError:
-        # http://docs.python.org/release/2.4.4/dist/setup-script.html
-        from distutils.core import setup
     setup(**conf)
